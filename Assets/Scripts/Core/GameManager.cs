@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class GameManager 
+public class GameManager
 {
     public enum GameState
     {
@@ -21,6 +21,7 @@ public class GameManager
         {
             if (theInstance == null)
                 theInstance = new GameManager();
+
             return theInstance;
         }
     }
