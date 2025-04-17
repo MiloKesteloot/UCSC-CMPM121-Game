@@ -56,5 +56,6 @@ public class GameManager
     private GameManager()
     {
         enemies = new List<GameObject>();
+        // Debug.Log(EnemyManager.Instance.enemyTypes["zombie"].hp);
     }
 }
