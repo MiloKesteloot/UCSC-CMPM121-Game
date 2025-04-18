@@ -29,7 +29,6 @@ public class EnemyManager
     }
 
     public class EnemyType {
-        
         public string name;
         public int sprite;
         public float hp;
