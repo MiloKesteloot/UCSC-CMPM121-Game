@@ -43,9 +43,11 @@ public class LevelManager
     public class Spawn {
         public string enemy;
         public string count;
-        public string hp;
-        public string delay;
-        public List<int> sequence;
-        public string location;  
+        public string hp = "base";
+        public string dmg = "base";
+        public string speed = "base";
+        public string delay = "2";
+        public List<int> sequence = new(){1};
+        public string location = "random";  
     }
 }

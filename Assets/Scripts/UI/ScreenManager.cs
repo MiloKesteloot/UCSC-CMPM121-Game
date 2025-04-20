@@ -4,6 +4,7 @@ using UnityEngine;
 public class ScreenManager : MonoBehaviour
 {
     public List<Screen> screens = new();
+    // public float damageDelt;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -14,6 +15,8 @@ public class ScreenManager : MonoBehaviour
     void Update()
     {
         foreach (Screen s in screens) {
+            // Transform descendant = s.ui.transform.Find("Stats");
+            // TODO: damage delt, damage recieved, time since start
             if (GameManager.Instance.state == s.gameState) {
                 s.ui.SetActive(true);
             } else {
@@ -27,5 +30,7 @@ public class ScreenManager : MonoBehaviour
         public GameManager.GameState gameState;
         public GameObject ui;
     }
+
+    
 }
 
