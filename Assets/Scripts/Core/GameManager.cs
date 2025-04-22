@@ -37,6 +37,10 @@ public class GameManager
     private List<GameObject> enemies;
     public int enemy_count { get { return enemies.Count; } }
 
+    public int wave;
+    public string level;
+    public LevelManager.LevelType GetLevel() => LevelManager.Instance.levelTypes[GameManager.Instance.level];
+
     public void AddEnemy(GameObject enemy)
     {
         enemies.Add(enemy);

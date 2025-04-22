@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class RPN
 {
-    public static float EvaluateExpression(string expression, Dictionary<string, float> variables = null) {
+    public static float Eval(string expression, Dictionary<string, float> variables) {
         variables ??= new Dictionary<string, float>();
         string[] tokens = expression.Split(" ");
         Stack<string> stack = new();
@@ -46,5 +46,12 @@ public class RPN
         }
         float.TryParse(stack.Pop(), out float result);
         return result;
+    }
+
+    public static int EvalBase(string expression, float baseVariable = 0) {
+        return (int) RPN.Eval(expression, new Dictionary<string, float>(){
+            {"wave", GameManager.Instance.wave},
+            {"base", baseVariable}
+        });
     }
 }

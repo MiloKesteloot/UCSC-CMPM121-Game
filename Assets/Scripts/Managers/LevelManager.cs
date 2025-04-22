@@ -29,6 +29,8 @@ public class LevelManager
             levelType.spawnsDictionary = new();
             foreach (Spawn spawn in levelType.spawns) {
                 levelType.spawnsDictionary[spawn.enemy] = spawn;
+
+                spawn.sequence ??= new(){1};
             }
         }
     }
@@ -42,12 +44,12 @@ public class LevelManager
 
     public class Spawn {
         public string enemy;
-        public string count;
+        public string count = "0";
         public string hp = "base";
-        public string dmg = "base";
+        public string damage = "base";
         public string speed = "base";
         public string delay = "2";
-        public List<int> sequence = new(){1};
+        public List<int> sequence = null;
         public string location = "random";  
     }
 }
