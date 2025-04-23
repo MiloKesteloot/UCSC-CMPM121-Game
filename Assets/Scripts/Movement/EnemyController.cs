@@ -10,6 +10,8 @@ public class EnemyController : MonoBehaviour
     public Hittable hp;
     public HealthBar healthui;
     public bool dead;
+    public bool ranged = false;
+    public SpellCaster spellcaster;
 
     List<GameManager.GameState> deathStates = new(){GameManager.GameState.WAVEEND, GameManager.GameState.GAMEOVER, GameManager.GameState.PREGAME};
 
@@ -38,6 +40,18 @@ public class EnemyController : MonoBehaviour
         {
             GetComponent<Unit>().movement = direction.normalized * speed;
         }
+
+        if (ranged) {
+            StartCoroutine(spellcaster.Cast(transform.position, target.position));
+        }
+    }
+
+    public void ToggleRange() {
+        ranged = true;
+
+        spellcaster = new SpellCaster(125, 3, Hittable.Team.MONSTERS);
+        spellcaster.mana = 0;
+        StartCoroutine(spellcaster.ManaRegeneration());
     }
     
     void DoAttack()

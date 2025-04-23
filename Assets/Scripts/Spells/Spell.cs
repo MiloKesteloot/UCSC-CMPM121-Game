@@ -26,7 +26,7 @@ public class Spell
 
     public int GetDamage()
     {
-        return 100;
+        return 50;
     }
 
     public float GetCooldown()

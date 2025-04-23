@@ -60,8 +60,8 @@ public class PlayerController : MonoBehaviour
         Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
         mouseWorld.z = 0;
         StatsManager.Instance.SpellCast(spellcaster.spell.GetName());
-        StartCoroutine(spellcaster.Cast(transform.position, mouseWorld));
         StatsManager.Instance.AddStats(StatsManager.StatType.SpellsCast, 1);
+        StartCoroutine(spellcaster.Cast(transform.position, mouseWorld));
     }
 
     void OnMove(InputValue value)

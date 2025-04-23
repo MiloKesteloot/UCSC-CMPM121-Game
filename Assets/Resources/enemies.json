@@ -26,5 +26,12 @@
         "hp": 500,
         "speed": 1,
         "damage": 50
-    }
+    },
+    {
+         "name": "mushy",
+         "sprite": 13,
+         "hp": 200,
+         "speed": 0,
+         "damage": 50
+     }
 ]

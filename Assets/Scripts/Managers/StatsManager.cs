@@ -58,6 +58,7 @@ public class StatsManager
 
     public string GetFormattedWaveStats() {
         return  $"You beat wave {GameManager.Instance.wave}\n" +
+                $"Favorite Spell: {GetFavoriteSpell()}\n" +
                 $"Damage Receved: {GetWaveStats(StatType.DamageReceved)}\n" +
                 $"Spells Cast: {GetWaveStats(StatType.SpellsCast)}\n" +
                 $"Enemies Killed: {GetWaveStats(StatType.EnemiesKilled)}\n" +
@@ -65,10 +66,25 @@ public class StatsManager
     }
 
     public string GetFormattedGameStats() {
-        return  $"Damage Receved: {GetGameStats(StatType.DamageReceved)}\n" +
+        return  $"Favorite Spell: {GetFavoriteSpell()}\n" +
+                $"Damage Receved: {GetGameStats(StatType.DamageReceved)}\n" +
                 $"Spells Cast: {GetGameStats(StatType.SpellsCast)}\n" +
                 $"Enemies Killed: {GetGameStats(StatType.EnemiesKilled)}\n" +
                 $"Distance Moved: {GetGameStats(StatType.DistanceMoved)}";
+    }
+
+    public string GetFavoriteSpell() {
+        string favoriteSpell = "None";
+        int maxValue = -1;
+        foreach (var kvp in weaponList)
+        {
+            if (kvp.Value > maxValue)
+            {
+                maxValue = kvp.Value;
+                favoriteSpell = kvp.Key;
+            }
+        }
+        return favoriteSpell;
     }
 
     public void NewWave() {

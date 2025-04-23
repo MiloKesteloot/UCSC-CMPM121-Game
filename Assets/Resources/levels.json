@@ -29,6 +29,12 @@
                 "count": "1",
                 "hp": "base 100 wave * +",
                 "location": "random green"
+            },
+            {
+                "enemy": "mushy",
+                "count": "1",
+                "hp": "base 100 wave * +",
+                "location": "random red"
             }
         ]
    },
@@ -63,6 +69,12 @@
                 "count": "1",
                 "hp": "base 200 wave * +",
                 "location": "random green"
+            },
+            {
+                "enemy": "mushy",
+                "count": "2",
+                "hp": "base 200 wave * +",
+                "location": "random red"
             }
         ]
    },
@@ -96,6 +108,12 @@
                 "count": "1",
                 "hp": "base 100 wave * +",
                 "location": "random green"
+            },
+            {
+                "enemy": "mushy",
+                "count": "1",
+                "hp": "base 200 wave * +",
+                "location": "random red"
             }
         ]
    }

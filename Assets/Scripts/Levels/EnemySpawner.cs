@@ -109,6 +109,9 @@ public class EnemySpawner : MonoBehaviour
         en.hp     = new Hittable(hp, Hittable.Team.MONSTERS, new_enemy);
         en.speed  = speed;
         en.damage = damage;
+        if (enemyType.name == "mushy") {
+            en.ToggleRange();
+        }
 
         GameManager.Instance.AddEnemy(new_enemy);
     }
