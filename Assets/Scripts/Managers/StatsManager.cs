@@ -26,6 +26,13 @@ public class StatsManager
     public Dictionary<StatType, float> gameStats = new();
     public Dictionary<StatType, float> lifeStats = new();
 
+    public Dictionary<string, int> weaponList = new();
+
+    public void SpellCast(string name) {
+        if (!weaponList.ContainsKey(name)) weaponList[name] = 0;
+        weaponList[name]++;
+    }
+
     public void AddStats(StatType statType, float value) {
         AddStats(waveStats, statType, value);
         AddStats(gameStats, statType, value);
@@ -69,6 +76,7 @@ public class StatsManager
     }
     public void NewGame() {
         gameStats = new();
+        weaponList = new();
     }
     public void NewLife() {
         lifeStats = new();

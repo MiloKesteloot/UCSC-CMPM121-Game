@@ -34,7 +34,6 @@ public class HealthBar : MonoBehaviour
         slider.transform.localScale = new Vector3(perc, 1, 1);
         slider.transform.localPosition = new Vector3(-(1-perc)/2, 0, 0);
         old_perc = perc;
-    }
-
-    
+    }    
 }
+// TODO make values more fun.
