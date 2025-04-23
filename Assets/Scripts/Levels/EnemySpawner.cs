@@ -15,7 +15,6 @@ public class EnemySpawner : MonoBehaviour
     public SpawnPoint[] SpawnPoints;
     private int coroutines = 0;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
         int y = 130;
         foreach (LevelManager.LevelType levelType in LevelManager.Instance.levelTypes.Values) {
@@ -27,13 +26,8 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update() {
-        
-    }
-
     public void StartLevel(string levelName) {
-        level_selector.gameObject.SetActive(false);
+        StatsManager.Instance.NewGame();
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
         GameManager.Instance.wave = 0;
         GameManager.Instance.level = levelName;
@@ -46,6 +40,7 @@ public class EnemySpawner : MonoBehaviour
     }
 
     IEnumerator SpawnWave() {
+        StatsManager.Instance.NewWave();
         GameManager.Instance.wave += 1;
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
         GameManager.Instance.countdown = 3;
@@ -63,10 +58,12 @@ public class EnemySpawner : MonoBehaviour
         
         yield return new WaitWhile(() => coroutines > 0 || GameManager.Instance.enemy_count > 0);
 
-        if (GameManager.Instance.wave == GameManager.Instance.GetLevel().waves) {
-            GameManager.Instance.state = GameManager.GameState.GAMEOVER;
-        } else {
-            GameManager.Instance.state = GameManager.GameState.WAVEEND;
+        if (GameManager.Instance.state != GameManager.GameState.GAMEOVER) {
+            if (GameManager.Instance.wave == GameManager.Instance.GetLevel().waves) {
+                GameManager.Instance.state = GameManager.GameState.GAMEOVER;
+            } else {
+                GameManager.Instance.state = GameManager.GameState.WAVEEND;
+            }
         }
     }
 
@@ -77,7 +74,7 @@ public class EnemySpawner : MonoBehaviour
         List<int> sequence = spawn.sequence;
         int sequenceIndex = 0;
 
-        string location = spawn.location; // TODO actually use location, right now it's just picking a random of all spawn points
+        string location = spawn.location;
 
         while (count > 0) {
             SpawnPoint spawn_point = SpawnPoint.GetRandom(SpawnPoints, location);

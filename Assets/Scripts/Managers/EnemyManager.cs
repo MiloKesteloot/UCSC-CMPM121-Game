@@ -18,7 +18,6 @@ public class EnemyManager
     public Dictionary<string, EnemyType> enemyTypes = new();
 
     private EnemyManager() {
-        // TODO read through enemies.json and put EnemyInfo instances into enemyInfos
         var enemyText = Resources.Load<TextAsset>("enemies");
 
         JToken jo = JToken.Parse(enemyText.text);

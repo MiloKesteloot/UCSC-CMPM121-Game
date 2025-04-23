@@ -60,6 +60,7 @@ public class GameManager
     private GameManager()
     {
         enemies = new List<GameObject>();
+        StatsManager sm = StatsManager.Instance;
         // Debug.Log(LevelManager.Instance.levelTypes["Easy"].spawnsDictionary["zombie"].hp);
     }
 }

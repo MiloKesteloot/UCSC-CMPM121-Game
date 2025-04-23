@@ -18,20 +18,27 @@ public class PlayerController : MonoBehaviour
 
     public Unit unit;
 
+    private Vector3 spawnPoint;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         unit = GetComponent<Unit>();
         GameManager.Instance.player = gameObject;
+        unit.OnMove += distance => StatsManager.Instance.AddStats(StatsManager.StatType.DistanceMoved, distance);
+        spawnPoint = transform.position;
     }
 
     public void StartLevel()
     {
+        transform.position = spawnPoint;
+
         spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER);
         StartCoroutine(spellcaster.ManaRegeneration());
         
         hp = new Hittable(100, Hittable.Team.PLAYER, gameObject);
         hp.OnDeath += Die;
+        hp.OnDamage += damage => StatsManager.Instance.AddStats(StatsManager.StatType.DamageReceved, damage.amount);
         hp.team = Hittable.Team.PLAYER;
 
         // tell UI elements what to show
@@ -53,6 +60,7 @@ public class PlayerController : MonoBehaviour
         Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
         mouseWorld.z = 0;
         StartCoroutine(spellcaster.Cast(transform.position, mouseWorld));
+        StatsManager.Instance.AddStats(StatsManager.StatType.SpellsCast, 1);
     }
 
     void OnMove(InputValue value)
@@ -66,5 +74,4 @@ public class PlayerController : MonoBehaviour
         Debug.Log("You Lost");
         GameManager.Instance.state = GameManager.GameState.GAMEOVER;
     }
-
 }

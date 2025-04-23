@@ -1,28 +1,42 @@
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ScreenManager : MonoBehaviour
 {
     public List<Screen> screens = new();
-    // public float damageDelt;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         foreach (Screen s in screens) {
-            // Transform descendant = s.ui.transform.Find("Stats");
-            // TODO: damage delt, damage recieved, time since start
-            if (GameManager.Instance.state == s.gameState) {
+            
+            bool active = GameManager.Instance.state == s.gameState;
+            
+            if (active == s.ui.activeInHierarchy) continue; // If the screen is already in it's current state, continue
+
+            if (active) {
+                SetStats(s);
                 s.ui.SetActive(true);
             } else {
                 s.ui.SetActive(false);
             }
         }
+    }
+
+    void SetStats(Screen screen) {
+        Transform descendantTransform = screen.ui.transform.Find("Stats");
+        if (descendantTransform == null) return;
+        if (!descendantTransform.gameObject.TryGetComponent(out TMP_Text textAsset)) return;
+        string stats = "";
+        switch (GameManager.Instance.state) {
+            case GameManager.GameState.WAVEEND:
+                stats = StatsManager.Instance.GetFormattedWaveStats();
+                break;
+            case GameManager.GameState.GAMEOVER:
+                stats = StatsManager.Instance.GetFormattedGameStats();
+                break;
+        }
+        textAsset.text = stats;
     }
 
     [System.Serializable]
@@ -31,6 +45,8 @@ public class ScreenManager : MonoBehaviour
         public GameObject ui;
     }
 
-    
+    public void ReturnToMenu() {
+        GameManager.Instance.state = GameManager.GameState.PREGAME;
+    }
 }
 

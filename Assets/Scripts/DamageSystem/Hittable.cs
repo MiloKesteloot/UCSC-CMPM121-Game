@@ -12,18 +12,20 @@ public class Hittable
 
     public GameObject owner;
 
+    public event Action OnDeath;
+    public event Action<Damage> OnDamage;
+
     public void Damage(Damage damage)
     {
         EventBus.Instance.DoDamage(owner.transform.position, damage, this);
         hp -= damage.amount;
+        OnDamage?.Invoke(damage);
         if (hp <= 0)
         {
             hp = 0;
             OnDeath();
         }
     }
-
-    public event Action OnDeath;
 
     public Hittable(int hp, Team team, GameObject owner)
     {

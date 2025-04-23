@@ -18,7 +18,6 @@ public class LevelManager
     public Dictionary<string, LevelType> levelTypes = new();
 
     private LevelManager() {
-        // TODO read through levels.json and put LevelInfo instances into levelInfos
         var levelText = Resources.Load<TextAsset>("levels");
 
         JToken jo = JToken.Parse(levelText.text);

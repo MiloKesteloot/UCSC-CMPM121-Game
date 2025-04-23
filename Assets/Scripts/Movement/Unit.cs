@@ -19,6 +19,7 @@ public class Unit : MonoBehaviour
     void FixedUpdate()
     {
         // TODO make diagonal movement the same as horizontal
+
         Move(new Vector2(movement.x, 0) * Time.fixedDeltaTime);
         Move(new Vector2(0, movement.y) * Time.fixedDeltaTime);
         distance += movement.magnitude*Time.fixedDeltaTime;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -10,6 +11,7 @@ public class EnemyController : MonoBehaviour
     public HealthBar healthui;
     public bool dead;
 
+    List<GameManager.GameState> deathStates = new(){GameManager.GameState.WAVEEND, GameManager.GameState.GAMEOVER, GameManager.GameState.PREGAME};
 
     public float last_attack;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,6 +25,10 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (deathStates.Contains(GameManager.Instance.state)) {
+            this.Die();
+            return;
+        }
         Vector3 direction = target.position - transform.position;
         if (direction.magnitude < 2f)
         {
@@ -43,11 +49,14 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-
     void Die()
     {
         if (!dead)
         {
+            if (!deathStates.Contains(GameManager.Instance.state)) {
+                StatsManager.Instance.AddStats(StatsManager.StatType.EnemiesKilled, 1);
+                Debug.Log("Thing Died!");
+            }
             dead = true;
             GameManager.Instance.RemoveEnemy(gameObject);
             Destroy(gameObject);

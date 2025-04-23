@@ -23,7 +23,13 @@
                 "count": "wave 5 / 1 wave 5 % - *",
                 "hp": "100 25 wave *",
                 "location": "random bone"
-            }       
+            },
+            {
+                "enemy": "grand master oogway",
+                "count": "1",
+                "hp": "base 100 wave * +",
+                "location": "random green"
+            }
         ]
    },
    {   
@@ -51,7 +57,13 @@
                 "hp": "75 50 wave *",
                 "damage": "base 10 +",
                 "location": "random bone"
-            }       
+            },
+            {
+                "enemy": "grand master oogway",
+                "count": "1",
+                "hp": "base 200 wave * +",
+                "location": "random green"
+            }
         ]
    },
    {   
@@ -78,7 +90,13 @@
                 "hp": "75 15 wave *",
                 "damage": "base 5 -",
                 "location": "random bone"
-            }       
+            },
+            {
+                "enemy": "grand master oogway",
+                "count": "1",
+                "hp": "base 100 wave * +",
+                "location": "random green"
+            }
         ]
    }
 ]
