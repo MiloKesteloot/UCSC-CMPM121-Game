@@ -4,7 +4,12 @@ using System.Collections.Generic;
 public class RPNEvaluator
 {
     public static float Eval(string expression, Dictionary<string, float> variables) {
-        variables ??= new Dictionary<string, float>();
+        variables ??= new Dictionary<string, float>() {
+            {"wave", GameManager.Instance.wave},
+        };
+        if (expression.Contains("power")) {
+            variables.Add("power", GameManager.Instance.playerController.classType.GetSpellpower());
+        }
         string[] tokens = expression.Split(" ");
         Stack<string> stack = new();
         List<string> operators = new(){"+", "-", "*", "/", "%", "**"};

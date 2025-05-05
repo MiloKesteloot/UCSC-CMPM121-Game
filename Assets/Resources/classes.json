@@ -6,7 +6,7 @@
             "mana_regeneration": "10 wave +",
             "spellpower": "wave 10 *",
             "speed": "5"
-           },
+        },
     "warlock": {
             "sprite": 1,
             "health": "90 wave 10 * +",

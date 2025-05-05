@@ -27,7 +27,8 @@ public class GameManager
     }
 
     public GameObject player;
-    
+    public PlayerController playerController;
+
     public ProjectileManager projectileManager;
     public SpellIconManager spellIconManager;
     public EnemySpriteManager enemySpriteManager;

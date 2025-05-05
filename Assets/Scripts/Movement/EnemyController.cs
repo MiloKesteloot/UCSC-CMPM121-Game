@@ -49,7 +49,7 @@ public class EnemyController : MonoBehaviour
     public void ToggleRange() {
         ranged = true;
 
-        spellcaster = new SpellCaster(125, 3, Hittable.Team.MONSTERS);
+        spellcaster = new SpellCaster(125, 3, Hittable.Team.MONSTERS, SpellBuilder.BuildBaseSpell(this.spellcaster, "Random")); // This probably shouldn't be random
         spellcaster.mana = 0;
         StartCoroutine(spellcaster.ManaRegeneration());
     }
@@ -69,7 +69,6 @@ public class EnemyController : MonoBehaviour
         {
             if (!deathStates.Contains(GameManager.Instance.state)) {
                 StatsManager.Instance.AddStats(StatsManager.StatType.EnemiesKilled, 1);
-                Debug.Log("Thing Died!");
             }
             dead = true;
             GameManager.Instance.RemoveEnemy(gameObject);

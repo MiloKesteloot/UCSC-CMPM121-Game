@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class PlayerController : MonoBehaviour
 
     public Unit unit;
 
+    public ClassManager.ClassType classType;
+
     private Vector3 spawnPoint;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -27,13 +30,19 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.player = gameObject;
         unit.OnMove += distance => StatsManager.Instance.AddStats(StatsManager.StatType.DistanceMoved, distance);
         spawnPoint = transform.position;
+
+        classType = ClassManager.Instance.classTypes.Values.ToArray()[0];
+
+        gameObject.transform.Find("SpriteGameObject").gameObject.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.playerSpriteManager.Get(classType.sprite);
+
+        GameManager.Instance.playerController = this;
     }
 
     public void StartLevel()
     {
         transform.position = spawnPoint;
 
-        spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER);
+        spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER, SpellBuilder.BuildRandom(this.spellcaster));
         StartCoroutine(spellcaster.ManaRegeneration());
         
         hp = new Hittable(100, Hittable.Team.PLAYER, gameObject);
@@ -74,5 +83,9 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("You Lost");
         GameManager.Instance.state = GameManager.GameState.GAMEOVER;
+    }
+
+    public void SetMaxHp() {
+        this.hp.SetMaxHP((int) this.classType.GetHealth());
     }
 }

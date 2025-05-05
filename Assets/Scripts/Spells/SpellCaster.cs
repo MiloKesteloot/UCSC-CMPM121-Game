@@ -20,13 +20,13 @@ public class SpellCaster
         }
     }
 
-    public SpellCaster(int mana, int mana_reg, Hittable.Team team)
+    public SpellCaster(int mana, int mana_reg, Hittable.Team team, Spell spell)
     {
         this.mana = mana;
         this.max_mana = mana;
         this.mana_reg = mana_reg;
         this.team = team;
-        spell = new SpellBuilder().Build(this);
+        this.spell = spell;
     }
 
     public IEnumerator Cast(Vector3 where, Vector3 target)

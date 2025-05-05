@@ -116,5 +116,41 @@
                 "location": "random red"
             }
         ]
-   }
+    },
+    {
+        "name": "Debug",
+        "waves": 2,
+        "spawns": [
+            {
+                "enemy": "zombie",
+                "count": "wave",
+                "hp": "1",
+                "location": "random"
+            },
+            {
+                "enemy": "skeleton",
+                "count": "wave",
+                "hp": "1",
+                "location": "random red"
+            },
+            {
+                "enemy": "warlock",
+                "count": "wave",
+                "hp": "1",
+                "location": "random bone"
+            },
+            {
+                "enemy": "grand master oogway",
+                "count": "0",
+                "hp": "base 100 wave * +",
+                "location": "random green"
+            },
+            {
+                "enemy": "mushy",
+                "count": "0",
+                "hp": "base 200 wave * +",
+                "location": "random red"
+            }
+        ]
+    }
 ]

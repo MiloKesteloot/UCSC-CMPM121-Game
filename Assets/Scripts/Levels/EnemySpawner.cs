@@ -40,6 +40,7 @@ public class EnemySpawner : MonoBehaviour
     }
 
     IEnumerator SpawnWave() {
+        GameManager.Instance.playerController.SetMaxHp();
         StatsManager.Instance.NewWave();
         GameManager.Instance.wave += 1;
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;

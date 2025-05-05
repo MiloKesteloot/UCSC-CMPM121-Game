@@ -38,6 +38,6 @@ public class SpawnPoint : MonoBehaviour
                 }
             }
         }
-        return viableSpawns[RND.Instance.Next(viableSpawns.Count)];
+        return viableSpawns[(int) (UnityEngine.Random.value * viableSpawns.Count)];
     }
 }
