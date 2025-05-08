@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public ManaBar manaui;
 
     public SpellCaster spellcaster;
-    public SpellUI spellui;
+    public SpellUI[] spelluis;
 
     public int speed;
 
@@ -22,6 +22,13 @@ public class PlayerController : MonoBehaviour
     public ClassManager.ClassType classType;
 
     private Vector3 spawnPoint;
+
+    public void UpdateStats() {
+        this.hp.SetMaxHP((int) classType.GetHealth());
+        this.spellcaster.max_mana = (int) classType.GetMana();
+        this.spellcaster.mana_reg = (int) classType.GetManaRegeneration();
+        this.speed = (int) classType.GetSpeed();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,7 +49,7 @@ public class PlayerController : MonoBehaviour
     {
         transform.position = spawnPoint;
 
-        spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER, SpellBuilder.BuildRandom(this.spellcaster));
+        spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER, SpellBuilder.Build(this.spellcaster, "Magic Missile")); // SpellBuilder.BuildRandom(this.spellcaster)
         StartCoroutine(spellcaster.ManaRegeneration());
         
         hp = new Hittable(100, Hittable.Team.PLAYER, gameObject);
@@ -53,7 +60,9 @@ public class PlayerController : MonoBehaviour
         // tell UI elements what to show
         healthui.SetHealth(hp);
         manaui.SetSpellCaster(spellcaster);
-        spellui.SetSpell(spellcaster.spell);
+        spelluis[0].SetSpell(spellcaster.spell);
+
+        UpdateStats();
     }
 
     // Update is called once per frame
@@ -83,9 +92,5 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("You Lost");
         GameManager.Instance.state = GameManager.GameState.GAMEOVER;
-    }
-
-    public void SetMaxHp() {
-        this.hp.SetMaxHP((int) this.classType.GetHealth());
     }
 }

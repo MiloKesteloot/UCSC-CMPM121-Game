@@ -38,14 +38,6 @@ public abstract class Spell
 
     public abstract IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team);
 
-    public void OnHit(Hittable other, Vector3 impact)
-    {
-        if (other.team != team)
-        {
-            other.Damage(new Damage(GetDamage(), Damage.Type.ARCANE));
-        }
-    }
-
     // TODO bullets aren't shooting in debug mode??
 
     public abstract class SpellInfo {
@@ -59,9 +51,9 @@ public abstract class Spell
     }
 
     public class ProjectileInfo {
-        public string trajectory;
+        public string trajectory = "straight";
         public string speed;
         public int sprite = -1;
-        public string lifetime;
+        public string lifetime = "9999999";
     }
 }

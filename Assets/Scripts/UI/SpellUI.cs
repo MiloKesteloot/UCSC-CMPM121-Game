@@ -14,21 +14,16 @@ public class SpellUI : MonoBehaviour
     const float UPDATE_DELAY = 1;
     public GameObject dropbutton;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
+    void Start() {
         last_text_update = 0;
     }
 
-    public void SetSpell(Spell spell)
-    {
+    public void SetSpell(Spell spell) {
         this.spell = spell;
         GameManager.Instance.spellIconManager.PlaceSprite(spell.GetIcon(), icon.GetComponent<Image>());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (spell == null) return;
         if (Time.time > last_text_update + UPDATE_DELAY)
         {

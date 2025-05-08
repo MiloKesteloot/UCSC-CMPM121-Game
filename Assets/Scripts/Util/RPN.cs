@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class RPNEvaluator
+public class RPN
 {
     public static float Eval(string expression, Dictionary<string, float> variables) {
         variables ??= new Dictionary<string, float>() {
@@ -54,7 +55,7 @@ public class RPNEvaluator
     }
 
     public static int EvalBase(string expression, float baseVariable = 0) {
-        return (int) RPNEvaluator.Eval(expression, new Dictionary<string, float>(){
+        return (int) RPN.Eval(expression, new Dictionary<string, float>(){
             {"wave", GameManager.Instance.wave},
             {"base", baseVariable}
         });

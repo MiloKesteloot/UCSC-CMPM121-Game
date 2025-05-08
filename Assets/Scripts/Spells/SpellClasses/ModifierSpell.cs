@@ -52,17 +52,19 @@ public class ModifierSpell : Spell
         public string angle;
         public string delay;
         [JsonProperty("damage_multiplier")] public string damageMultiplier;
+        [JsonProperty("damage_adder")] public string damageAdder;
         [JsonProperty("mana_multiplier")] public string manaMultiplier;
         [JsonProperty("mana_adder")] public string manaAdder;
         [JsonProperty("cooldown_multiplier")] public string cooldownMultiplier;
+        [JsonProperty("cooldown_adder")] public string cooldownAdder;
         [JsonProperty("projectile_trajectory")] public string projectileTrajectory;
 
         public int GetDelay() {
-            return (int) RPNEvaluator.Eval(delay, null);
+            return (int) RPN.Eval(delay, null);
         }
 
         public int GetAngle() {
-            return (int) RPNEvaluator.Eval(angle, null);
+            return (int) RPN.Eval(angle, null);
         }
     }
 }

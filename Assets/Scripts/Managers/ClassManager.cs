@@ -37,23 +37,23 @@ public class ClassManager
         public string speed;
 
         public float GetHealth() {
-            return RPNEvaluator.Eval(health, null);
+            return RPN.Eval(health, null);
         }
 
         public float GetMana() {
-            return RPNEvaluator.Eval(mana, null);
+            return RPN.Eval(mana, null);
         }
 
         public float GetManaRegeneration() {
-            return RPNEvaluator.Eval(manaRegeneration, null);
+            return RPN.Eval(manaRegeneration, null);
         }
 
         public float GetSpellpower() {
-            return RPNEvaluator.Eval(spellpower, null);
+            return RPN.Eval(spellpower, null);
         }
 
         public float GetSpeed() {
-            return RPNEvaluator.Eval(speed, null);
+            return RPN.Eval(speed, null);
         }
     }
 }

@@ -40,9 +40,9 @@ public class EnemySpawner : MonoBehaviour
     }
 
     IEnumerator SpawnWave() {
-        GameManager.Instance.playerController.SetMaxHp();
-        StatsManager.Instance.NewWave();
         GameManager.Instance.wave += 1;
+        GameManager.Instance.playerController.UpdateStats();
+        StatsManager.Instance.NewWave();
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
         GameManager.Instance.countdown = 3;
         for (int i = 3; i > 0; i--)
@@ -70,8 +70,8 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnEnemyWave(string enemyName) {
         LevelManager.Spawn spawn = GameManager.Instance.GetLevel().spawnsDictionary[enemyName];
-        int count = RPNEvaluator.EvalBase(spawn.count);
-        int delay = RPNEvaluator.EvalBase(spawn.delay);
+        int count = RPN.EvalBase(spawn.count);
+        int delay = RPN.EvalBase(spawn.delay);
         List<int> sequence = spawn.sequence;
         int sequenceIndex = 0;
 
@@ -100,9 +100,9 @@ public class EnemySpawner : MonoBehaviour
         EnemyManager.EnemyType enemyType = EnemyManager.Instance.enemyTypes[enemyName];
         LevelManager.Spawn spawn = GameManager.Instance.GetLevel().spawnsDictionary[enemyName];
 
-        int hp     = RPNEvaluator.EvalBase(spawn.hp,     enemyType.hp);
-        int speed  = RPNEvaluator.EvalBase(spawn.speed,  enemyType.speed);
-        int damage = RPNEvaluator.EvalBase(spawn.damage, enemyType.damage);
+        int hp     = RPN.EvalBase(spawn.hp,     enemyType.hp);
+        int speed  = RPN.EvalBase(spawn.speed,  enemyType.speed);
+        int damage = RPN.EvalBase(spawn.damage, enemyType.damage);
 
         GameObject new_enemy = Instantiate(enemy, location, Quaternion.identity);
         new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(enemyType.sprite);

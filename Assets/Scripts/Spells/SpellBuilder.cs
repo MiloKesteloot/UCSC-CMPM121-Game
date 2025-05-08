@@ -3,17 +3,23 @@ using System.Collections.Generic;
 public static class SpellBuilder 
 {
 
-    public static Spell BuildBaseSpell(SpellCaster owner, string baseSpellName) {
-        return new BaseSpell(owner, SpellManager.Instance.GetBaseSpellInfo(baseSpellName));
+    public static BaseSpell BuildBaseSpell(SpellCaster owner, string baseSpellName) {
+        return BaseSpell.Build(owner, SpellManager.Instance.GetBaseSpellInfo(baseSpellName));
     }
 
-    // public static Spell BuildModifierSpell(SpellCaster owner, string modifierSpellName, ) {
-    //     return new ModifierSpell(owner, SpellManager.Instance.GetModifierSpellInfo(modifierSpellName));
-    // }
+    public static Spell Build(SpellCaster owner, string baseSpellInfoName, params string[] modifierSpellInfoNames) {
+        List<ModifierSpell.ModifierSpellInfo> modifierSpellInfos = new();
+
+        foreach (var modifierSpellInfoName in modifierSpellInfoNames) {
+            modifierSpellInfos.Add(SpellManager.Instance.GetModifierSpellInfo(modifierSpellInfoName));
+        }
+
+        return Build(owner, SpellManager.Instance.GetBaseSpellInfo(baseSpellInfoName), modifierSpellInfos.ToArray());
+    }
 
     public static Spell Build(SpellCaster owner, BaseSpell.BaseSpellInfo baseSpellInfo, params ModifierSpell.ModifierSpellInfo[] modifierSpellInfos)
     {
-        Spell spell = new BaseSpell(owner, baseSpellInfo);
+        Spell spell = BaseSpell.Build(owner, baseSpellInfo);
 
         foreach (ModifierSpell.ModifierSpellInfo modifierSpellInfo in modifierSpellInfos) {
             ModifierSpell modifierSpell = new(owner, modifierSpellInfo, spell);

@@ -23,7 +23,6 @@ public class SpellManager
     public Dictionary<string, ModifierSpell.ModifierSpellInfo> modifierSpellInfos = new();
 
     private SpellManager() {
-
         TextAsset spellText = Resources.Load<TextAsset>("spells");
         JObject jt = JObject.Parse(spellText.text);
 
