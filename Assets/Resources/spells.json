@@ -8,6 +8,25 @@
        "cooldown": "2",
        "projectile": {"trajectory": "straight", "speed": "8 power 5 / +", "sprite": 0}
    },
+   "melon_masher":  {
+       "name": "Melon Masher",
+       "description": "A large projectile.",
+       "icon": 17,
+       "damage": {"amount": "50 power 5 / +", "type": "arcane"},
+       "mana_cost": "20",
+       "cooldown": "6",
+       "projectile": {"trajectory": "straight", "speed": "4 power 5 / +", "sprite": 1}
+   },
+   "arcane_pulse":  {
+       "name": "Arcane Pulse",
+       "description": "A shockwave of arcane energy.",
+       "icon": 8,
+       "N": "40",
+       "damage": {"amount": "5", "type": "arcane"},
+       "mana_cost": "15",
+       "cooldown": "3",
+       "projectile": {"trajectory": "straight", "speed": "10", "sprite": 0}
+   },
    "magic_missile":  {
        "name": "Magic Missile",
        "description": "A homing bolt.",
@@ -51,12 +70,24 @@
        "description": "Faster projectile speed",
        "speed_multiplier": "1.75"
    },
+   "mana_sale": {
+       "name": "mana-sale",
+       "description": "Lower mana cost",
+       "mana_multiplier": "0.5"
+   },
    "doubler": {
        "name": "doubled",
        "description": "Spell is cast a second time after a small delay; increased mana cost and cooldown.",
        "delay": "0.5",
        "mana_multiplier": "1.5",
        "cooldown_multiplier": "1.5"
+   },
+   "tripler": {
+       "name": "tripled",
+       "description": "Spell is cast three times after a small delay; increased mana cost and cooldown.",
+       "delay": "0.5",
+       "mana_multiplier": "2",
+       "cooldown_multiplier": "2"
    },
    "splitter": {
        "name": "split",
@@ -77,5 +108,4 @@
        "mana_adder": "10",
        "projectile_trajectory": "homing"
    }
-
 }

@@ -37,7 +37,9 @@ public static class SpellBuilder
             if (spellInfo is BaseSpell.BaseSpellInfo) {
                 return Build(owner, (BaseSpell.BaseSpellInfo) spellInfo, modifierSpellInfos.ToArray());
             } else {
-                modifierSpellInfos.Add((ModifierSpell.ModifierSpellInfo) spellInfo);
+                if (modifierSpellInfos.Count < 4) {
+                    modifierSpellInfos.Add((ModifierSpell.ModifierSpellInfo) spellInfo);
+                }
             }
         }
         throw new KeyNotFoundException("Saftey Triggered! BaseSpell could not be found.");

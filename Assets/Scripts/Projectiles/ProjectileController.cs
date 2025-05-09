@@ -39,7 +39,6 @@ public class ProjectileController : MonoBehaviour
                     OnHit(pc.hp, transform.position);
                 }
             }
-
         }
         Destroy(gameObject);
     }

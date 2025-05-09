@@ -44,10 +44,17 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.playerController = this;
     }
 
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Alpha1)) spellcaster.spell = spelluis[0].spell;
+        if (Input.GetKeyDown(KeyCode.Alpha2)) spellcaster.spell = spelluis[1].spell;
+        if (Input.GetKeyDown(KeyCode.Alpha3)) spellcaster.spell = spelluis[2].spell;
+        if (Input.GetKeyDown(KeyCode.Alpha4)) spellcaster.spell = spelluis[3].spell;
+    }
+
     public void StartLevel() {
         transform.position = spawnPoint;
-
-        spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER, SpellBuilder.Build(this.spellcaster, "Arcane Bolt", "split", "doubled")); // SpellBuilder.BuildRandom(this.spellcaster)); //  
+        // 
+        spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER, SpellBuilder.Build(this.spellcaster, "Arcane Bolt")); // SpellBuilder.BuildRandom(this.spellcaster));
         StartCoroutine(spellcaster.ManaRegeneration());
         
         hp = new Hittable(100, Hittable.Team.PLAYER, gameObject);
@@ -64,13 +71,13 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnAttack(InputValue value) {
-        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
+        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER || spellcaster.spell == null) return;
         Vector2 mouseScreen = Mouse.current.position.value;
         Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
         mouseWorld.z = 0;
         StatsManager.Instance.SpellCast(spellcaster.spell.GetName());
         StatsManager.Instance.AddStats(StatsManager.StatType.SpellsCast, 1);
-        StartCoroutine(spellcaster.Cast(transform.position, mouseWorld));
+        StartCoroutine(spellcaster.Cast(transform, mouseWorld));
     }
 
     void OnMove(InputValue value) {

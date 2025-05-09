@@ -23,11 +23,15 @@ public abstract class Spell
         return info.description;
     }
 
-    public abstract int GetManaCost();
+    public abstract int GetManaCost(string mods = "");
 
-    public abstract int GetDamage();
+    public abstract int GetDamage(string mods = "");
 
-    public abstract float GetCooldown();
+    public abstract float GetCooldown(string mods = "");
+
+    public abstract float GetSpeed(string mods = "");
+
+    public abstract string GetTrajectory();
 
     public abstract int GetIcon();
 
@@ -36,13 +40,17 @@ public abstract class Spell
         return last_cast + GetCooldown() < Time.time;
     }
 
-    public abstract IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team);
+    public abstract BaseSpell GetBaseSpell();
+
+    public abstract IEnumerator Cast(Transform where, Vector3 target, Hittable.Team team, int damage, float speed, string trajectory);
 
     // TODO bullets aren't shooting in debug mode??
 
     public abstract class SpellInfo {
         public string name = "NO NAME";
         public string description = "NO DESCRIPTION PROVIDED";
+
+        public abstract void SetUp();
     }
 
     public class DamageInfo {

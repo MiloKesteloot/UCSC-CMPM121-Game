@@ -29,12 +29,12 @@ public class SpellCaster
         this.spell = spell;
     }
 
-    public IEnumerator Cast(Vector3 where, Vector3 target)
+    public IEnumerator Cast(Transform where, Vector3 target)
     {        
         if (mana >= spell.GetManaCost() && spell.IsReady())
         {
             mana -= spell.GetManaCost();
-            yield return spell.Cast(where, target, team);
+            yield return spell.Cast(where, target, team, spell.GetDamage(), spell.GetSpeed(), spell.GetTrajectory());
         }
         yield break;
     }

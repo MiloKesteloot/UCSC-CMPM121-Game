@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Newtonsoft.Json;
+using System;
 
 public class BaseSpell : Spell
 {
@@ -16,32 +17,48 @@ public class BaseSpell : Spell
                 return new ArcaneBlastSpell(owner, baseSpellInfo);
             case "Arcane Spray":
                 return new ArcaneSpraySpell(owner, baseSpellInfo);
+            case "Arcane Pulse":
+                return new ArcanePulseSpell(owner, baseSpellInfo);
             default:
                 return new BaseSpell(owner, baseSpellInfo);
         }
     }
 
-    public override int GetManaCost() {
-        return (int) RPN.Eval(baseSpellInfo.manaCost, null);
+    public override int GetManaCost(string mods = "") {
+        return (int) RPN.Eval(baseSpellInfo.manaCost + mods, null);
     }
 
-    public override int GetDamage() {
-        return (int) RPN.Eval(baseSpellInfo.damage.amount, null);
+    public override int GetDamage(string mods = "") {
+        int i = (int) RPN.Eval(baseSpellInfo.damage.amount + mods, null);
+        return i;
     }
 
-    public override float GetCooldown() {
-        return (int) RPN.Eval(baseSpellInfo.cooldown, null);
+    public override float GetCooldown(string mods = "") {
+        return (int) RPN.Eval(baseSpellInfo.cooldown + mods, null);
+    }
+
+    public override float GetSpeed(string mods = "") {
+        return RPN.Eval(baseSpellInfo.projectile.speed + mods, null);
+    }
+
+    public override string GetTrajectory() {
+        return baseSpellInfo.projectile.trajectory ?? "straight";
     }
 
     public override int GetIcon() {
         return baseSpellInfo.icon;
     }
 
-    public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team) {
+    public override IEnumerator Cast(Transform where, Vector3 target, Hittable.Team team, int damage, float speed, string trajectory) {
+        last_cast = Time.time;
         this.team = team;
         ProjectileInfo p = baseSpellInfo.projectile;
-        GameManager.Instance.projectileManager.CreateProjectile(p.sprite, p.trajectory, where, target - where, RPN.Eval(p.speed, null), OnHit, RPN.Eval(p.lifetime, null));
+        GameManager.Instance.projectileManager.CreateProjectile(p.sprite, trajectory, where.position, target - where.position, speed, OnHit(damage), RPN.Eval(p.lifetime, null));
         yield return new WaitForEndOfFrame();
+    }
+
+    public override BaseSpell GetBaseSpell() {
+        return this;
     }
 
     //     if (this.baseSpellInfo.secondaryProjectile != null) {
@@ -55,11 +72,13 @@ public class BaseSpell : Spell
             
     //     }
 
-    public virtual void OnHit(Hittable other, Vector3 impact)
-    {
-        if (other.team != team) {
-            other.Damage(new Damage(GetDamage(), Damage.Type.ARCANE));
+    public virtual Action<Hittable,Vector3> OnHit(int damage) {
+        void OnHit(Hittable other, Vector3 impact) {
+            if (other.team != team) {
+                other.Damage(new Damage(damage, Damage.Type.ARCANE)); // TODO make damageType accurate
+            }
         }
+        return OnHit;
     }
 
     public class BaseSpellInfo : SpellInfo {
@@ -72,5 +91,7 @@ public class BaseSpell : Spell
         public string cooldown;
         public ProjectileInfo projectile;
         [JsonProperty("secondary_projectile")] public ProjectileInfo secondaryProjectile;
+
+        public override void SetUp() {}
     }
 }

@@ -16,11 +16,26 @@ public class SpellUI : MonoBehaviour
 
     void Start() {
         last_text_update = 0;
+        if (dropbutton != null) {
+            dropbutton.GetComponent<Button>().onClick.AddListener(Drop);
+        }
+    }
+
+    public void Drop() {
+        this.SetSpell(null);
     }
 
     public void SetSpell(Spell spell) {
+        if (GameManager.Instance.playerController.spellcaster.spell == this.spell) {
+            GameManager.Instance.playerController.spellcaster.spell = spell;
+        }
         this.spell = spell;
-        GameManager.Instance.spellIconManager.PlaceSprite(spell.GetIcon(), icon.GetComponent<Image>());
+        if (spell != null) {
+            GameManager.Instance.spellIconManager.PlaceSprite(spell.GetIcon(), icon.GetComponent<Image>());
+        } else {
+            icon.GetComponent<Image>().sprite = null;
+        }
+
     }
 
     void Update() {

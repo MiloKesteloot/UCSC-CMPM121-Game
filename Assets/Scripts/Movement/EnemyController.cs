@@ -42,14 +42,14 @@ public class EnemyController : MonoBehaviour
         }
 
         if (ranged) {
-            StartCoroutine(spellcaster.Cast(transform.position, target.position));
+            StartCoroutine(spellcaster.Cast(transform, target.position));
         }
     }
 
     public void ToggleRange() {
         ranged = true;
 
-        spellcaster = new SpellCaster(125, 3, Hittable.Team.MONSTERS, SpellBuilder.BuildBaseSpell(this.spellcaster, "Random")); // This probably shouldn't be random
+        spellcaster = new SpellCaster(125, 3, Hittable.Team.MONSTERS, SpellBuilder.BuildBaseSpell(this.spellcaster, "Arcane Bolt")); // This probably shouldn't be random
         spellcaster.mana = 0;
         StartCoroutine(spellcaster.ManaRegeneration());
     }

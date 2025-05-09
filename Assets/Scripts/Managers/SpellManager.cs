@@ -31,10 +31,12 @@ public class SpellManager
                 BaseSpell.BaseSpellInfo baseSpellInfo = spell.Value.ToObject<BaseSpell.BaseSpellInfo>();
                 baseSpellInfos.Add(baseSpellInfo.name, baseSpellInfo);
                 spellInfos.Add(baseSpellInfo.name, baseSpellInfo);
+                baseSpellInfo.SetUp();
             } else {
                 ModifierSpell.ModifierSpellInfo modifierSpellInfo = spell.Value.ToObject<ModifierSpell.ModifierSpellInfo>();
                 modifierSpellInfos.Add(modifierSpellInfo.name, modifierSpellInfo);
                 spellInfos.Add(modifierSpellInfo.name, modifierSpellInfo);
+                modifierSpellInfo.SetUp();
             }
         }
     }
