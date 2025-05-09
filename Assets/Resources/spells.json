@@ -22,7 +22,7 @@
        "description": "A shockwave of arcane energy.",
        "icon": 8,
        "N": "40",
-       "damage": {"amount": "5", "type": "arcane"},
+       "damage": {"amount": "15", "type": "arcane"},
        "mana_cost": "15",
        "cooldown": "3",
        "projectile": {"trajectory": "straight", "speed": "10", "sprite": 0}

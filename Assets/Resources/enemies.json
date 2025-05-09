@@ -23,14 +23,14 @@
    {
         "name": "grand master oogway",
         "sprite": 26,
-        "hp": 500,
+        "hp": 250,
         "speed": 1,
         "damage": 50
     },
     {
          "name": "mushy",
          "sprite": 13,
-         "hp": 200,
+         "hp": 100,
          "speed": 0,
          "damage": 50
      }

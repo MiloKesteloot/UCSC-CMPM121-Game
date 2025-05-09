@@ -88,5 +88,8 @@ public class PlayerController : MonoBehaviour
     void Die() {
         Debug.Log("You Lost");
         GameManager.Instance.state = GameManager.GameState.GAMEOVER;
+        foreach (SpellUI sui in spelluis) {
+            sui.SetSpell(null);
+        }
     }
 }
