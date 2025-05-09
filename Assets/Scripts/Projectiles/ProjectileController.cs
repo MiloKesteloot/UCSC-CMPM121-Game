@@ -1,17 +1,20 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ProjectileController : MonoBehaviour
 {
     public float lifetime;
     public event Action<Hittable,Vector3> OnHit;
     public ProjectileMovement movement;
+    public bool piercing;
+    public List<object> collisions;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        collisions = new();
     }
 
     // Update is called once per frame
@@ -26,20 +29,43 @@ public class ProjectileController : MonoBehaviour
         if (collision.gameObject.CompareTag("projectile")) return;
         if (collision.gameObject.CompareTag("unit"))
         {
+            bool hit = false;
+
             var ec = collision.gameObject.GetComponent<EnemyController>();
             if (ec != null)
             {
+                // if (collisions.Contains(ec)) return;
                 OnHit(ec.hp, transform.position);
+                // collisions.Add(ec);
+                hit = true;
+
+                Physics2D.IgnoreCollision(
+                    ec.GetComponent<Collider2D>(), // Enemy's collider
+                    GetComponent<Collider2D>() // Projectile's collider
+                );
             }
             else
             {
                 var pc = collision.gameObject.GetComponent<PlayerController>();
                 if (pc != null)
                 {
+                    // if (collisions.Contains(pc)) return;
                     OnHit(pc.hp, transform.position);
+                    // collisions.Add(pc);
+                    hit = true;
+                    
+                    Physics2D.IgnoreCollision(
+                        pc.GetComponent<Collider2D>(), // Enemy's collider
+                        GetComponent<Collider2D>() // Projectile's collider
+                    );
                 }
             }
+            if (hit && !piercing) { //  
+                Destroy(gameObject);
+            }
+            return;
         }
+
         Destroy(gameObject);
     }
 

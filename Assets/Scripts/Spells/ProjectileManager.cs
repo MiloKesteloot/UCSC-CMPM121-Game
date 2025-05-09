@@ -11,7 +11,7 @@ public class ProjectileManager : MonoBehaviour
         GameManager.Instance.projectileManager = this;
     }
 
-    public void CreateProjectile(int which, string trajectory, Vector3 where, Vector3 direction, float speed, Action<Hittable, Vector3> onHit, float lifetime = -1)
+    public void CreateProjectile(int which, string trajectory, Vector3 where, Vector3 direction, float speed, bool piercing, Action<Hittable, Vector3> onHit, float lifetime = -1)
     {
         float offset = 1.1f;
         if (which == 1) {
@@ -23,6 +23,7 @@ public class ProjectileManager : MonoBehaviour
         GameObject new_projectile = Instantiate(projectiles[which], where + direction.normalized * offset, Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg));
         new_projectile.GetComponent<ProjectileController>().movement = MakeMovement(trajectory, speed);
         new_projectile.GetComponent<ProjectileController>().OnHit += onHit;
+        new_projectile.GetComponent<ProjectileController>().piercing = piercing;
         if (lifetime != -1) {
             new_projectile.GetComponent<ProjectileController>().SetLifetime(lifetime);
         }

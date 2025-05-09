@@ -45,15 +45,19 @@ public class BaseSpell : Spell
         return baseSpellInfo.projectile.trajectory ?? "straight";
     }
 
+    public override bool GetPiercing() {
+        return false;
+    }
+
     public override int GetIcon() {
         return baseSpellInfo.icon;
     }
 
-    public override IEnumerator Cast(Transform where, Vector3 target, Hittable.Team team, int damage, float speed, string trajectory) {
+    public override IEnumerator Cast(Transform where, Vector3 target, Hittable.Team team, int damage, float speed, string trajectory, bool piercing) {
         last_cast = Time.time;
         this.team = team;
         ProjectileInfo p = baseSpellInfo.projectile;
-        GameManager.Instance.projectileManager.CreateProjectile(p.sprite, trajectory, where.position, target - where.position, speed, OnHit(damage), RPN.Eval(p.lifetime, null));
+        GameManager.Instance.projectileManager.CreateProjectile(p.sprite, trajectory, where.position, target - where.position, speed, piercing, OnHit(damage), RPN.Eval(p.lifetime, null));
         yield return new WaitForEndOfFrame();
     }
 

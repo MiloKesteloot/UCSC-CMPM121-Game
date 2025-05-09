@@ -32,33 +32,40 @@ public class ModifierSpell : Spell
         return modifierSpellInfo.projectileTrajectory ?? subSpell.GetTrajectory();
     }
 
+    public override bool GetPiercing() {
+        if (modifierSpellInfo.piercing) {
+            return true;
+        }
+        return subSpell.GetPiercing();
+    }
+
     public override int GetIcon() {
         return subSpell.GetIcon();
     }
 
     
 
-    public override IEnumerator Cast(Transform where, Vector3 target, Hittable.Team team, int damage, float speed, string trajectory) {
+    public override IEnumerator Cast(Transform where, Vector3 target, Hittable.Team team, int damage, float speed, string trajectory, bool piercing) {
         last_cast = Time.time;
         switch (this.GetName()) {
             case "doubled":
-                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team, damage, speed, trajectory));
+                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team, damage, speed, trajectory, piercing));
                 yield return new WaitForSeconds(this.modifierSpellInfo.GetDelay());
-                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team, damage, speed, trajectory));
+                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team, damage, speed, trajectory, piercing));
                 break;
             case "tripled":
-                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team, damage, speed, trajectory));
+                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team, damage, speed, trajectory, piercing));
                 yield return new WaitForSeconds(this.modifierSpellInfo.GetDelay());
-                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team, damage, speed, trajectory));
+                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team, damage, speed, trajectory, piercing));
                 yield return new WaitForSeconds(this.modifierSpellInfo.GetDelay());
-                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team, damage, speed, trajectory));
+                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team, damage, speed, trajectory, piercing));
                 break;
             case "split":
-                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, RotateVectorAroundVector(this.modifierSpellInfo.GetAngle() + Random.value*6-3, target, where.position), team, damage, speed, trajectory));
-                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, RotateVectorAroundVector(-this.modifierSpellInfo.GetAngle() + Random.value*6-3, target, where.position), team, damage, speed, trajectory));
+                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, RotateVectorAroundVector(this.modifierSpellInfo.GetAngle() + Random.value*6-3, target, where.position), team, damage, speed, trajectory, piercing));
+                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, RotateVectorAroundVector(-this.modifierSpellInfo.GetAngle() + Random.value*6-3, target, where.position), team, damage, speed, trajectory, piercing));
                 break;
             default:
-                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team, damage, speed, trajectory));
+                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team, damage, speed, trajectory, piercing));
                 break;
         }
         yield return new WaitForEndOfFrame();
@@ -75,6 +82,7 @@ public class ModifierSpell : Spell
     public class ModifierSpellInfo : SpellInfo {
         public string angle;
         public string delay;
+        public bool piercing;
         [JsonProperty("damage_multiplier")] public string damageMultiplier;
         [JsonProperty("damage_adder")] public string damageAdder;
         [JsonProperty("mana_multiplier")] public string manaMultiplier;

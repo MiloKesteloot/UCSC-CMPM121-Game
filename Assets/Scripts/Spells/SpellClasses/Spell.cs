@@ -33,6 +33,8 @@ public abstract class Spell
 
     public abstract string GetTrajectory();
 
+    public abstract bool GetPiercing();
+
     public abstract int GetIcon();
 
     public bool IsReady()
@@ -42,7 +44,7 @@ public abstract class Spell
 
     public abstract BaseSpell GetBaseSpell();
 
-    public abstract IEnumerator Cast(Transform where, Vector3 target, Hittable.Team team, int damage, float speed, string trajectory);
+    public abstract IEnumerator Cast(Transform where, Vector3 target, Hittable.Team team, int damage, float speed, string trajectory, bool piercing);
 
     // TODO bullets aren't shooting in debug mode??
 
