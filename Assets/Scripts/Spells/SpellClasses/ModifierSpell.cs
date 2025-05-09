@@ -35,17 +35,25 @@ public class ModifierSpell : Spell
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team) {
         switch (this.GetName()) {
             case "doubled":
-                this.subSpell.Cast(where, target, team);
-                yield return new WaitForSeconds(this.modifierSpellInfo.GetDelay());
-                this.subSpell.Cast(where, target, team);
+                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team));
+                Debug.Log("Delay: " + this.modifierSpellInfo.GetDelay());
+                yield return new WaitForSeconds(this.modifierSpellInfo.GetDelay()); // TODO I feel like it's not waiting the right amount of time
+                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team));
                 break;
             case "split":
+                Debug.Log("Angle: " + this.modifierSpellInfo.GetAngle());
+                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, RotateVectorAroundVector(this.modifierSpellInfo.GetAngle(), target, where), team));
+                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, RotateVectorAroundVector(-this.modifierSpellInfo.GetAngle(), target, where), team));
                 break;
             default:
-                this.subSpell.Cast(where, target, team);
+                CoroutineManager.Instance.StartCoroutine(this.subSpell.Cast(where, target, team));
                 break;
         }
         yield return new WaitForEndOfFrame();
+    }
+
+    public Vector3 RotateVectorAroundVector(float a, Vector3 v, Vector3 c) {
+        return Quaternion.AngleAxis(a, Vector3.forward) * (v - c) + c;
     }
 
     public class ModifierSpellInfo : SpellInfo {
@@ -59,12 +67,12 @@ public class ModifierSpell : Spell
         [JsonProperty("cooldown_adder")] public string cooldownAdder;
         [JsonProperty("projectile_trajectory")] public string projectileTrajectory;
 
-        public int GetDelay() {
-            return (int) RPN.Eval(delay, null);
+        public float GetDelay() {
+            return RPN.Eval(delay, null);
         }
 
-        public int GetAngle() {
-            return (int) RPN.Eval(angle, null);
+        public float GetAngle() {
+            return RPN.Eval(angle, null);
         }
     }
 }
