@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
     {
         transform.position = spawnPoint;
 
-        spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER, SpellBuilder.Build(this.spellcaster, "Magic Missile")); // SpellBuilder.BuildRandom(this.spellcaster)
+        spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER, SpellBuilder.BuildRandom(this.spellcaster)); //  SpellBuilder.Build(this.spellcaster, "Magic Missile")
         StartCoroutine(spellcaster.ManaRegeneration());
         
         hp = new Hittable(100, Hittable.Team.PLAYER, gameObject);
