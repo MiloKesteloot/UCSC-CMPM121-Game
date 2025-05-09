@@ -58230,6 +58230,10 @@ PrefabInstance:
       value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 3127186393118423181, guid: b531ed09aa5f5a847918ddac98e4bf16, type: 3}
+      propertyPath: 'sprites.Array.data[8]'
+      value: 
+      objectReference: {fileID: 8986632176549445252, guid: e621137f9197f0842a52168123ca0298, type: 3}
+    - target: {fileID: 3127186393118423181, guid: b531ed09aa5f5a847918ddac98e4bf16, type: 3}
       propertyPath: 'sprites.Array.data[17]'
       value: 
       objectReference: {fileID: 8195842010640534580, guid: e621137f9197f0842a52168123ca0298, type: 3}
