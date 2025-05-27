@@ -34,7 +34,8 @@ public class LevelManager
         }
     }
 
-    public class LevelType {
+    public class LevelType
+    {
         public string name;
         public int waves;
         public List<Spawn> spawns;
