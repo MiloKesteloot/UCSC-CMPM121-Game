@@ -9,7 +9,7 @@ public class RPN
             {"wave", GameManager.Instance.wave},
         };
         if (expression.Contains("power")) {
-            variables.Add("power", GameManager.Instance.playerController.classType.GetSpellpower());
+            variables.Add("power", GameManager.Instance.playerController.classType.GetSpellpower() + GameManager.Instance.playerController.spellPower);
         }
         string[] tokens = expression.Split(" ");
         Stack<string> stack = new();

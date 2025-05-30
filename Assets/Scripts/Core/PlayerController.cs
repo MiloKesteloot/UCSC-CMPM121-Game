@@ -20,18 +20,22 @@ public class PlayerController : MonoBehaviour
     public Unit unit;
 
     public ClassManager.ClassType classType;
+    public float spellPower;
 
     private Vector3 spawnPoint;
 
-    public void UpdateStats() {
+    public void UpdateStats()
+    {
         this.hp.SetMaxHP((int) classType.GetHealth());
-        this.spellcaster.max_mana = (int) classType.GetMana();
-        this.spellcaster.mana_reg = (int) classType.GetManaRegeneration();
-        this.speed = (int) classType.GetSpeed();
+        // this.hp.OnDamage += (dmg) => { EventBus.Instance.DoDamage(gameObject.transform.position, dmg, this.hp); };
+        this.spellcaster.max_mana = (int)classType.GetMana();
+        this.spellcaster.mana_reg = (int)classType.GetManaRegeneration();
+        this.speed = (int)classType.GetSpeed();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start() {
+    void Start()
+    {
         unit = GetComponent<Unit>();
         GameManager.Instance.player = gameObject;
         unit.OnMove += distance => StatsManager.Instance.AddStats(StatsManager.StatType.DistanceMoved, distance);
@@ -42,9 +46,20 @@ public class PlayerController : MonoBehaviour
         gameObject.transform.Find("SpriteGameObject").gameObject.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.playerSpriteManager.Get(classType.sprite);
 
         GameManager.Instance.playerController = this;
+
+        EventBus.Instance.Reset();
+        this.spellPower = 0;
+
+        Relic r = new(this, RelicManager.Instance.relicTypes["Green Gem"]);
     }
 
-    void Update() {
+    void FixedUpdate()
+    {
+        EventBus.Instance.FixedUpdate();
+    }
+
+    void Update()
+    {
         if (Input.GetKeyDown(KeyCode.Alpha1)) spellcaster.spell = spelluis[0].spell;
         if (Input.GetKeyDown(KeyCode.Alpha2)) spellcaster.spell = spelluis[1].spell;
         if (Input.GetKeyDown(KeyCode.Alpha3)) spellcaster.spell = spelluis[2].spell;
@@ -85,11 +100,15 @@ public class PlayerController : MonoBehaviour
         unit.movement = value.Get<Vector2>()*speed;
     }
 
-    void Die() {
+    void Die()
+    {
         Debug.Log("You Lost");
         GameManager.Instance.state = GameManager.GameState.GAMEOVER;
-        foreach (SpellUI sui in spelluis) {
+        foreach (SpellUI sui in spelluis)
+        {
             sui.SetSpell(null);
         }
+        EventBus.Instance.Reset();
+        this.spellPower = 0;
     }
 }

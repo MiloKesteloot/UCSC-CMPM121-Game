@@ -29,8 +29,15 @@ public class SpellCaster
         this.spell = spell;
     }
 
+    public void AddMana(int amount)
+    {
+        this.mana += amount;
+        if (this.mana > this.max_mana) this.mana = this.max_mana;
+        if (this.mana < 0) this.mana = 0;
+    }
+
     public IEnumerator Cast(Transform where, Vector3 target)
-    {        
+    {
         if (mana >= spell.GetManaCost() && spell.IsReady())
         {
             mana -= spell.GetManaCost();

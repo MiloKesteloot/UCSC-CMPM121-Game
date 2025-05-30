@@ -14,7 +14,7 @@ public class ArcaneBlastSpell : BaseSpell
             ProjectileInfo p = baseSpellInfo.secondaryProjectile;
             int N = (int) RPN.Eval(baseSpellInfo.N, null);
             for (int i = 0; i < N; i++) {
-                GameManager.Instance.projectileManager.CreateProjectile(p.sprite, p.trajectory, impact, RotateVector(360f/N*i), RPN.Eval(p.speed, null), false, base.OnHit((int) RPN.Eval(baseSpellInfo.secondaryDamage, null)), RPN.Eval(p.lifetime, null));
+                GameManager.Instance.projectileManager.CreateProjectile(p.sprite, p.trajectory, impact, RotateVector(360f/N*i), RPN.Eval(p.speed, null), false, base.OnHit((int) RPN.Eval(baseSpellInfo.secondaryDamage, null)), team, RPN.Eval(p.lifetime, null));
                 // TODO should modifiers affect secondary bullets?
             }
         }

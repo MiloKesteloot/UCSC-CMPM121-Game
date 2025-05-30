@@ -12,7 +12,7 @@ public class ArcaneSpraySpell : BaseSpell
         int N = (int) RPN.Eval(baseSpellInfo.N, null);
         float angle = RPN.Eval(baseSpellInfo.spray, null);
         for (int i = 0; i < N; i++) {
-            GameManager.Instance.projectileManager.CreateProjectile(p.sprite, trajectory, where.position, RotateVector((Random.value*2-1)*angle, target - where.position), RPN.Eval(p.speed, null), piercing, OnHit(damage), RPN.Eval(p.lifetime, null));
+            GameManager.Instance.projectileManager.CreateProjectile(p.sprite, trajectory, where.position, RotateVector((Random.value*2-1)*angle, target - where.position), RPN.Eval(p.speed, null), piercing, OnHit(damage), team, RPN.Eval(p.lifetime, null));
         }
         yield return new WaitForEndOfFrame();
     }

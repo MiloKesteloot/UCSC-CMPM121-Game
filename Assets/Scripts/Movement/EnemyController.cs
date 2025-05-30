@@ -67,8 +67,10 @@ public class EnemyController : MonoBehaviour
     {
         if (!dead)
         {
-            if (!deathStates.Contains(GameManager.Instance.state)) {
+            if (!deathStates.Contains(GameManager.Instance.state))
+            {
                 StatsManager.Instance.AddStats(StatsManager.StatType.EnemiesKilled, 1);
+                EventBus.Instance.DoKill();
             }
             dead = true;
             GameManager.Instance.RemoveEnemy(gameObject);

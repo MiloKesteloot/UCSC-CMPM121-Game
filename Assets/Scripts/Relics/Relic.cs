@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using RelicType = RelicManager.RelicType;
+using System;
 
-public abstract class Relic
+public class Relic
 {
     public PlayerController player;
     public RelicType relicType;
@@ -11,44 +12,55 @@ public abstract class Relic
     {
         this.player = player;
         this.relicType = relicType;
-    }
 
-    public string GetName()
-    {
-        return info.name;
-    }
+        RelicManager.TriggerInfo triggerInfo = relicType.trigger;
+        RelicManager.EffectInfo effectInfo = relicType.effect;
 
-    public string GetDescription() {
-        return info.description;
-    }
+        PlayerController pc = GameManager.Instance.playerController;
 
-    public bool IsReady()
-    {
-        return last_cast + GetCooldown() < Time.time;
-    }
+        Action effect = effectInfo.type switch
+        {
+            "gain-mana" => () =>
+                {
+                    Debug.Log("Gained mana!");
+                    pc.spellcaster.AddMana(
+                        (int) RPN.Eval(effectInfo.amount, null)
+                    );
+                }
 
-    public abstract BaseSpell GetBaseSpell();
+            ,
+            "gain-spellpower" => () =>
+                {
+                    Debug.Log("Gained spellpower!");
+                    pc.spellPower += RPN.Eval(effectInfo.amount, null);
+                }
 
-    public abstract IEnumerator Cast(Transform where, Vector3 target, Hittable.Team team, int damage, float speed, string trajectory, bool piercing);
-
-    // TODO bullets aren't shooting in debug mode??
-
-    public abstract class SpellInfo {
-        public string name = "NO NAME";
-        public string description = "NO DESCRIPTION PROVIDED";
-
-        public abstract void SetUp();
-    }
-
-    public class DamageInfo {
-        public string amount;
-        public string type;
-    }
-
-    public class ProjectileInfo {
-        public string trajectory = "straight";
-        public string speed;
-        public int sprite = -1;
-        public string lifetime = "9999999";
+            ,
+            _ => () => { }
+        };
+        switch (triggerInfo.type)
+        {
+            case "take-damage":
+                EventBus.Instance.OnDamage += (pos, dmg, hit) => effect();
+                break;
+            case "stand-still":
+                float time = RPN.Eval(triggerInfo.amount, null);
+                EventBus.Instance.fixedCustomEvents.Add(
+                    (
+                        () =>
+                        {
+                            return (pc.unit.timeSinceLastMoved % time) < (pc.unit.lastTimeSinceLastMoved % time);
+                        },
+                        effect
+                        )
+                );
+                break;
+            case "on-kill":
+                EventBus.Instance.OnKill += effect;
+                break;
+            case "on-miss":
+                EventBus.Instance.OnMiss += effect;
+                break;
+        }
     }
 }

@@ -10,6 +10,7 @@ public class ProjectileController : MonoBehaviour
     public ProjectileMovement movement;
     public bool piercing;
     public List<object> collisions;
+    public Hittable.Team team;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -60,10 +61,15 @@ public class ProjectileController : MonoBehaviour
                     );
                 }
             }
-            if (hit && !piercing) { //  
+            if (hit && !piercing) {
                 Destroy(gameObject);
             }
             return;
+        }
+
+        if (this.team == Hittable.Team.PLAYER)
+        {
+            EventBus.Instance.DoMiss();
         }
 
         Destroy(gameObject);

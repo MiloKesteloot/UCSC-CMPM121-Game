@@ -12,7 +12,7 @@ public class ArcanePulseSpell : BaseSpell
         int N = (int) RPN.Eval(baseSpellInfo.N, null);
         
         for (int i = 0; i < N; i++) {
-            GameManager.Instance.projectileManager.CreateProjectile(p.sprite, p.trajectory, where.position, RotateVector(360f/N*i), RPN.Eval(p.speed, null), piercing, OnHit((int) RPN.Eval(baseSpellInfo.damage.amount, null)), RPN.Eval(p.lifetime, null));
+            GameManager.Instance.projectileManager.CreateProjectile(p.sprite, p.trajectory, where.position, RotateVector(360f/N*i), RPN.Eval(p.speed, null), piercing, OnHit((int) RPN.Eval(baseSpellInfo.damage.amount, null)), team, RPN.Eval(p.lifetime, null));
         }
         yield return new WaitForEndOfFrame();
     }

@@ -53,5 +53,18 @@
             "type": "gain-mana",
             "amount": "25"
         }
+    },
+    {
+        "name": "Scroll of Pitty",
+        "sprite": 4,
+        "trigger": {
+            "description": "When you miss a shot",
+            "type": "on-miss"
+        },
+        "effect": {
+            "description": "you gain 25 mana.",
+            "type": "gain-mana",
+            "amount": "25"
+        }
     }
 ]

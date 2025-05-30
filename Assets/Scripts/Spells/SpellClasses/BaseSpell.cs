@@ -57,7 +57,7 @@ public class BaseSpell : Spell
         last_cast = Time.time;
         this.team = team;
         ProjectileInfo p = baseSpellInfo.projectile;
-        GameManager.Instance.projectileManager.CreateProjectile(p.sprite, trajectory, where.position, target - where.position, speed, piercing, OnHit(damage), RPN.Eval(p.lifetime, null));
+        GameManager.Instance.projectileManager.CreateProjectile(p.sprite, trajectory, where.position, target - where.position, speed, piercing, OnHit(damage), team, RPN.Eval(p.lifetime, null));
         yield return new WaitForEndOfFrame();
     }
 
