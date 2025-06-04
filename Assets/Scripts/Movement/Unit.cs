@@ -21,16 +21,19 @@ public class Unit : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        // TODO make diagonal movement the same as horizontal
-        lastTimeSinceLastMoved = timeSinceLastMoved;
-        timeSinceLastMoved += Time.fixedDeltaTime;
-        Move(new Vector2(movement.x, 0) * Time.fixedDeltaTime);
-        Move(new Vector2(0, movement.y) * Time.fixedDeltaTime);
-        distance += movement.magnitude*Time.fixedDeltaTime;
-        if (distance > 0.5f)
+        if (GameManager.Instance.state == GameManager.GameState.INWAVE)
         {
-            OnMove?.Invoke(distance);
-            distance = 0;
+            // TODO make diagonal movement the same as horizontal
+            lastTimeSinceLastMoved = timeSinceLastMoved;
+            timeSinceLastMoved += Time.fixedDeltaTime;
+            Move(new Vector2(movement.x, 0) * Time.fixedDeltaTime);
+            Move(new Vector2(0, movement.y) * Time.fixedDeltaTime);
+            distance += movement.magnitude * Time.fixedDeltaTime;
+            if (distance > 0.5f)
+            {
+                OnMove?.Invoke(distance);
+                distance = 0;
+            }
         }
     }
 

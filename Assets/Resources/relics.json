@@ -56,7 +56,7 @@
     },
     {
         "name": "Scroll of Pitty",
-        "sprite": 4,
+        "sprite": 3,
         "trigger": {
             "description": "When you miss a shot",
             "type": "on-miss"
@@ -65,6 +65,46 @@
             "description": "you gain 25 mana.",
             "type": "gain-mana",
             "amount": "25"
+        }
+    },
+    {
+        "name": "Scroll of Skill",
+        "sprite": 3,
+        "trigger": {
+            "description": "When you miss a shot",
+            "type": "on-miss"
+        },
+        "effect": {
+            "description": "you gain 5 health.",
+            "type": "gain-health",
+            "amount": "5"
+        }
+    },
+    {
+        "name": "Tax Return",
+        "sprite": 3,
+        "trigger": {
+            "description": "When you miss a shot",
+            "type": "on-miss"
+        },
+        "effect": {
+            "description": "you gain 10 mana.",
+            "type": "gain-mana",
+            "amount": "10"
+        }
+    },
+    {
+        "name": "Beginner's Luck",
+        "sprite": 3,
+        "trigger": {
+            "description": "At the start of a new wave",
+            "type": "start-of-wave"
+        },
+        "effect": {
+            "description": "your speed is doubled until you cast a spell",
+            "type": "gain-speed",
+            "amount": "speed",
+            "until": "cast-spell"
         }
     }
 ]

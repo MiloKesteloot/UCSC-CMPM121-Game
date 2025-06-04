@@ -5,7 +5,6 @@ using UnityEngine;
 public class RelicManager
 {
     private static RelicManager theInstance = null;
-
     public static RelicManager Instance
     {
         get
@@ -30,6 +29,32 @@ public class RelicManager
             RelicType relicType = relic.ToObject<RelicType>();
             relicTypes[relicType.name] = relicType;
         }
+
+        this.Reset();
+    }
+
+    public List<RelicType> avalibleRelics = new();
+    public void Reset()
+    {
+        avalibleRelics = new();
+        foreach (var relic in relicTypes.Values)
+        {
+            avalibleRelics.Add(relic);
+        }
+    }
+    public List<RelicType> GetXRandomRelics(int x)
+    {
+        if (avalibleRelics.Count < x)
+        {
+            this.Reset();
+        }
+        List<RelicType> tempList = new();
+        while (tempList.Count < x)
+        {
+            RelicType randomRelic = avalibleRelics[UnityEngine.Random.Range(0, avalibleRelics.Count)];
+            if (!tempList.Contains(randomRelic)) tempList.Add(randomRelic);
+        }
+        return tempList;
     }
 
     public class RelicType

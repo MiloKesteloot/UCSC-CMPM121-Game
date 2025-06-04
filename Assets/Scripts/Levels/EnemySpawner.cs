@@ -45,6 +45,9 @@ public class EnemySpawner : MonoBehaviour
         StatsManager.Instance.NewWave();
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
         GameManager.Instance.countdown = 3;
+
+        EventBus.Instance.DoWave();
+
         for (int i = 3; i > 0; i--)
         {
             yield return new WaitForSeconds(1);
@@ -60,9 +63,12 @@ public class EnemySpawner : MonoBehaviour
         yield return new WaitWhile(() => coroutines > 0 || GameManager.Instance.enemy_count > 0);
 
         if (GameManager.Instance.state != GameManager.GameState.GAMEOVER) {
-            if (GameManager.Instance.wave == GameManager.Instance.GetLevel().waves) {
-                GameManager.Instance.state = GameManager.GameState.GAMEOVER;
-            } else {
+            if (GameManager.Instance.wave == GameManager.Instance.GetLevel().waves)
+            {
+                GameManager.Instance.GameOver();
+            }
+            else
+            {
                 GameManager.Instance.state = GameManager.GameState.WAVEEND;
             }
         }

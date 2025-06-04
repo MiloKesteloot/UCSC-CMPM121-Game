@@ -24,9 +24,12 @@ public class EventBus
     }
 
     public event Action<Vector3, Damage, Hittable> OnDamage;
+    public event Action OnDamageEmpty;
     public void DoDamage(Vector3 where, Damage dmg, Hittable target)
     {
+        Debug.Log("Damage!");
         OnDamage?.Invoke(where, dmg, target);
+        OnDamageEmpty?.Invoke();
     }
 
     public event Action OnKill;
@@ -38,8 +41,7 @@ public class EventBus
     public event Action OnMiss;
     public void DoMiss()
     {
-        Debug.Log("Miss!");
-        OnMiss.Invoke();
+        OnMiss?.Invoke();
     }
 
     public void FixedUpdate()
@@ -48,5 +50,11 @@ public class EventBus
         {
             if (i.Item1()) i.Item2();
         }
+    }
+
+    public event Action OnWave;
+    public void DoWave()
+    {
+        OnWave?.Invoke();
     }
 }

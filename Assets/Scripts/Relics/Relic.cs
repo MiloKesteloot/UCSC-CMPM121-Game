@@ -24,7 +24,16 @@ public class Relic
                 {
                     Debug.Log("Gained mana!");
                     pc.spellcaster.AddMana(
-                        (int) RPN.Eval(effectInfo.amount, null)
+                        (int)RPN.Eval(effectInfo.amount, null)
+                    );
+                }
+
+            ,
+            "gain-health" => () =>
+                {
+                    Debug.Log("Gained health!");
+                    pc.hp.GiveHealth(
+                        (int)RPN.Eval(effectInfo.amount, null)
                     );
                 }
 
@@ -34,14 +43,16 @@ public class Relic
                     Debug.Log("Gained spellpower!");
                     pc.spellPower += RPN.Eval(effectInfo.amount, null);
                 }
-
             ,
             _ => () => { }
         };
+        effect();
+        Debug.Log("hi!");
         switch (triggerInfo.type)
         {
             case "take-damage":
-                EventBus.Instance.OnDamage += (pos, dmg, hit) => effect();
+                Debug.Log("added event to OnDamageEmpty!");
+                EventBus.Instance.OnDamageEmpty += effect;
                 break;
             case "stand-still":
                 float time = RPN.Eval(triggerInfo.amount, null);
@@ -60,6 +71,9 @@ public class Relic
                 break;
             case "on-miss":
                 EventBus.Instance.OnMiss += effect;
+                break;
+            case "start-of-wave":
+                EventBus.Instance.OnWave += effect;
                 break;
         }
     }

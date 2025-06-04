@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
@@ -50,12 +51,16 @@ public class PlayerController : MonoBehaviour
         EventBus.Instance.Reset();
         this.spellPower = 0;
 
-        Relic r = new(this, RelicManager.Instance.relicTypes["Green Gem"]);
+        
+        
     }
 
     void FixedUpdate()
     {
-        EventBus.Instance.FixedUpdate();
+        if (GameManager.Instance.state == GameManager.GameState.INWAVE)
+        {
+            EventBus.Instance.FixedUpdate();
+        }
     }
 
     void Update()
@@ -64,6 +69,15 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2)) spellcaster.spell = spelluis[1].spell;
         if (Input.GetKeyDown(KeyCode.Alpha3)) spellcaster.spell = spelluis[2].spell;
         if (Input.GetKeyDown(KeyCode.Alpha4)) spellcaster.spell = spelluis[3].spell;
+
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     foreach (string rt in RelicManager.Instance.relicTypes.Keys)
+        //     {
+        //         Relic r = new Relic(this, RelicManager.Instance.relicTypes[rt]);
+        //     }
+        //     Debug.Log("stuff given!");
+        // }
     }
 
     public void StartLevel() {
@@ -85,14 +99,18 @@ public class PlayerController : MonoBehaviour
         UpdateStats();
     }
 
-    void OnAttack(InputValue value) {
+    void OnAttack(InputValue value)
+    {
         if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER || spellcaster.spell == null) return;
+        Debug.Log("spellpower " + spellPower);
         Vector2 mouseScreen = Mouse.current.position.value;
         Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
         mouseWorld.z = 0;
         StatsManager.Instance.SpellCast(spellcaster.spell.GetName());
         StatsManager.Instance.AddStats(StatsManager.StatType.SpellsCast, 1);
         StartCoroutine(spellcaster.Cast(transform, mouseWorld));
+        this.spellPower = 0;
+
     }
 
     void OnMove(InputValue value) {
@@ -102,13 +120,6 @@ public class PlayerController : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("You Lost");
-        GameManager.Instance.state = GameManager.GameState.GAMEOVER;
-        foreach (SpellUI sui in spelluis)
-        {
-            sui.SetSpell(null);
-        }
-        EventBus.Instance.Reset();
-        this.spellPower = 0;
+        GameManager.Instance.GameOver();
     }
 }

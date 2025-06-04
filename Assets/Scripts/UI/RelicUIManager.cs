@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class RelicUIManager : MonoBehaviour
 {
+    public static RelicUIManager Instance = null;
+
     public GameObject relicUIPrefab;
     public PlayerController player;
 
@@ -14,7 +16,16 @@ public class RelicUIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (RelicUIManager.Instance == null) RelicUIManager.Instance = this;
+    }
+
+    public void Add(RelicManager.RelicType relicType)
+    {
+        new Relic(GameManager.Instance.playerController, relicType);
+        GameObject n = Instantiate(relicUIPrefab);
+        RelicSelectButton r = n.GetComponent<RelicSelectButton>();
+        r.icon.sprite = GameManager.Instance.relicIconManager.Get(relicType.sprite);
+        r.transform.SetParent(gameObject.transform);
     }
 
     /*public void OnRelicPickup(Relic r)

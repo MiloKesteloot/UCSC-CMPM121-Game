@@ -26,6 +26,24 @@ public class GameManager
         }
     }
 
+    public void GameOver()
+    {
+        GameManager.Instance.state = GameState.GAMEOVER;
+        RewardsRelicManager.Instance.mostRecentWave = -1;
+        RelicManager.Instance.Reset();
+        foreach (SpellUI sui in this.playerController.spelluis)
+        {
+            sui.SetSpell(null);
+        }
+        EventBus.Instance.Reset();
+        this.playerController.spellPower = 0;
+
+        for (int i = 0; i < RelicUIManager.Instance.transform.childCount; i++)
+        {
+            GameObject.Destroy(RelicUIManager.Instance.transform.GetChild(i).gameObject);
+        }
+    }
+
     public GameObject player;
     public PlayerController playerController;
 

@@ -129,13 +129,13 @@
             },
             {
                 "enemy": "skeleton",
-                "count": "wave",
+                "count": "0",
                 "hp": "1",
                 "location": "random red"
             },
             {
                 "enemy": "warlock",
-                "count": "wave",
+                "count": "0",
                 "hp": "1",
                 "location": "random bone"
             },

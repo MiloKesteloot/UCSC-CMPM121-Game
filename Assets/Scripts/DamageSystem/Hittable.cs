@@ -27,6 +27,12 @@ public class Hittable
         }
     }
 
+    public void GiveHealth(int hp)
+    {
+        this.hp += hp;
+        if (this.hp > this.max_hp) this.hp = this.max_hp;
+    }
+
     public Hittable(int hp, Team team, GameObject owner)
     {
         this.hp = hp;
