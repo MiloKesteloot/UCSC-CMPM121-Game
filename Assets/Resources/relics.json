@@ -101,9 +101,9 @@
             "type": "start-of-wave"
         },
         "effect": {
-            "description": "your speed is doubled until you cast a spell",
-            "type": "gain-speed",
-            "amount": "speed",
+            "description": "you gain 100 spellpower.",
+            "type": "gain-spellpower",
+            "amount": "100",
             "until": "cast-spell"
         }
     }
