@@ -17,7 +17,7 @@ public class RelicSelectButton : MonoBehaviour
         selectButton?.onClick.AddListener(() =>
         {
             RelicUIManager.Instance.Add(this.relic);
-            RewardsRelicManager.Instance.Close();
+            RewardsRelicManager.Instance?.Close();
         });
     }
 }

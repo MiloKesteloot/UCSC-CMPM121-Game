@@ -10,18 +10,29 @@ using System.Linq;
 public class EnemySpawner : MonoBehaviour
 {
     public Image level_selector;
+    public Image class_selector;
     public GameObject button;
     public GameObject enemy;
     public SpawnPoint[] SpawnPoints;
     private int coroutines = 0;
 
-    void Start() {
+    void Start()
+    {
         int y = 130;
-        foreach (LevelManager.LevelType levelType in LevelManager.Instance.levelTypes.Values) {
+        foreach (LevelManager.LevelType levelType in LevelManager.Instance.levelTypes.Values)
+        {
             GameObject selector = Instantiate(button, level_selector.transform);
             selector.transform.localPosition = new Vector3(0, y);
             selector.GetComponent<MenuSelectorController>().spawner = this;
             selector.GetComponent<MenuSelectorController>().SetLevel(levelType.name);
+            y -= 50;
+        }
+        
+        y = 130;
+        foreach (ClassManager.ClassType classType in ClassManager.Instance.classTypes.Values) {
+            GameObject selector = Instantiate(button, class_selector.transform);
+            selector.transform.localPosition = new Vector3(0, y);
+            selector.GetComponent<MenuSelectorController>().SetClass(classType);
             y -= 50;
         }
     }
@@ -62,7 +73,10 @@ public class EnemySpawner : MonoBehaviour
         
         yield return new WaitWhile(() => coroutines > 0 || GameManager.Instance.enemy_count > 0);
 
-        if (GameManager.Instance.state != GameManager.GameState.GAMEOVER) {
+        Debug.Log("GAME OVER!!!!!!!!!!");
+
+        if (GameManager.Instance.state != GameManager.GameState.GAMEOVER)
+        {
             if (GameManager.Instance.wave == GameManager.Instance.GetLevel().waves)
             {
                 GameManager.Instance.GameOver();

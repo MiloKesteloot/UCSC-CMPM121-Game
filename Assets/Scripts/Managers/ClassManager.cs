@@ -29,6 +29,7 @@ public class ClassManager
     }
 
     public class ClassType {
+        public string name;
         public int sprite;
         public string health;
         public string mana;

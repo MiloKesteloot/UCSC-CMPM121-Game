@@ -8,6 +8,7 @@ public class GameManager
     public enum GameState
     {
         PREGAME,
+        PREGAME2,
         INWAVE,
         WAVEEND,
         COUNTDOWN,
@@ -29,7 +30,10 @@ public class GameManager
     public void GameOver()
     {
         GameManager.Instance.state = GameState.GAMEOVER;
-        RewardsRelicManager.Instance.mostRecentWave = -1;
+        if (RewardsRelicManager.Instance != null)
+        {
+            RewardsRelicManager.Instance.mostRecentWave = -1;
+        }
         RelicManager.Instance.Reset();
         foreach (SpellUI sui in this.playerController.spelluis)
         {

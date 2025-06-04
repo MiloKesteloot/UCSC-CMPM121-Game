@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
 
     void OnAttack(InputValue value)
     {
-        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER || spellcaster.spell == null) return;
+        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.PREGAME2 || GameManager.Instance.state == GameManager.GameState.GAMEOVER || spellcaster.spell == null) return;
         Debug.Log("spellpower " + spellPower);
         Vector2 mouseScreen = Mouse.current.position.value;
         Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnMove(InputValue value) {
-        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
+        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.PREGAME2 || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
         unit.movement = value.Get<Vector2>()*speed;
     }
 

@@ -13,7 +13,7 @@ public class EnemyController : MonoBehaviour
     public bool ranged = false;
     public SpellCaster spellcaster;
 
-    List<GameManager.GameState> deathStates = new(){GameManager.GameState.WAVEEND, GameManager.GameState.GAMEOVER, GameManager.GameState.PREGAME};
+    List<GameManager.GameState> deathStates = new(){GameManager.GameState.WAVEEND, GameManager.GameState.GAMEOVER, GameManager.GameState.PREGAME, GameManager.GameState.PREGAME2};
 
     public float last_attack;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
